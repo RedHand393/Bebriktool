@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bebrik Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            height: 100vh;
+        }
+        .container {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 15px;
+        }
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .subtitle {
+            color: var(--tg-theme-hint-color, #999999);
+            margin: 5px 0;
+        }
+        .bot-frame {
+            flex: 1;
+            border: none;
+            border-radius: 15px;
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+        }
+        .launch-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--tg-theme-button-color, #007aff);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🦦</div>
+            <h1>Bebrik Tool</h1>
+            <div class="subtitle">Ваш бот запущен!</div>
+        </div>
+
+        <button class="launch-btn" onclick="launchBot()">
+            🚀 Запустить Bebrik Bot
+        </button>
+
+        <iframe 
+            src="https://t.me/BebrikToolbot" 
+            class="bot-frame"
+            id="botFrame"
+            style="display: none;"
+        ></iframe>
+
+        <div id="status" style="text-align: center; margin-top: 20px; color: #4CAF50;">
+            ✅ Бот активен и работает
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
+        function launchBot() {
+            const frame = document.getElementById('botFrame');
+            const status = document.getElementById('status');
+            
+            // Показываем чат с ботом
+            frame.style.display = 'block';
+            
+            // Обновляем статус
+            status.innerHTML = '🤖 Чат с Bebrik Bot открыт';
+            status.style.color = '#007aff';
+            
+            // Отправляем команду старт боту
+            setTimeout(() => {
+                Telegram.WebApp.sendData(JSON.stringify({
+                    command: 'start',
+                    action: 'launch_bot'
+                }));
+            }, 1000);
+        }
+
+        // Автозапуск при открытии
+        window.onload = function() {
+            setTimeout(launchBot, 500);
+        }
+    </script>
+</body>
+</html>
