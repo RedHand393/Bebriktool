@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bebrik Tool Web</title>
+    <title>Bebrik Tool</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -30,10 +30,6 @@
         h1 {
             margin: 0;
             font-size: 24px;
-        }
-        .subtitle {
-            color: var(--tg-theme-hint-color, #999999);
-            margin: 5px 0;
         }
         .menu {
             display: grid;
@@ -84,7 +80,6 @@
             margin-top: 15px;
             display: none;
             white-space: pre-wrap;
-            font-family: monospace;
         }
         .loading {
             text-align: center;
@@ -101,15 +96,12 @@
             <div class="subtitle">OSINT инструмент в браузере</div>
         </div>
 
-        <!-- Главное меню -->
         <div id="mainMenu">
             <div class="menu">
                 <button class="menu-btn" onclick="showSearch('phone')">📞 Поиск по номеру</button>
                 <button class="menu-btn" onclick="showSearch('ip')">🌐 Поиск по IP</button>
                 <button class="menu-btn" onclick="showSearch('vk')">🔍 Поиск VK</button>
                 <button class="menu-btn" onclick="showSearch('tiktok')">🎵 Поиск TikTok</button>
-                <button class="menu-btn" onclick="showSearch('ok')">👥 Поиск OK.ru</button>
-                <button class="menu-btn" onclick="showSearch('doxbin')">📁 Поиск DoxBin</button>
             </div>
         </div>
 
@@ -152,36 +144,9 @@
             <div class="loading" id="tiktokLoading">⏳ Ищем информацию...</div>
             <div id="tiktokResult" class="result"></div>
         </div>
-
-        <!-- Поиск OK.ru -->
-        <div id="okSearch" class="search-section">
-            <h3>👥 Поиск в Одноклассниках</h3>
-            <input type="text" id="okInput" placeholder="+79123456789 или email@mail.ru">
-            <button class="search-btn" onclick="searchOK()">🔍 Найти аккаунт</button>
-            <button class="search-btn back-btn" onclick="showMainMenu()">← Назад</button>
-            <div class="loading" id="okLoading">⏳ Ищем информацию...</div>
-            <div id="okResult" class="result"></div>
-        </div>
-
-        <!-- Поиск DoxBin -->
-        <div id="doxbinSearch" class="search-section">
-            <h3>📁 Поиск в DoxBin</h3>
-            <input type="text" id="doxbinInput" placeholder="+79123456789 или username">
-            <button class="search-btn" onclick="searchDoxbin()">🔍 Искать в DoxBin</button>
-            <button class="search-btn back-btn" onclick="showMainMenu()">← Назад</button>
-            <div class="loading" id="doxbinLoading">⏳ Ищем информацию...</div>
-            <div id="doxbinResult" class="result"></div>
-        </div>
     </div>
 
     <script>
-        // Инициализация Telegram Web App
-        if (typeof Telegram !== 'undefined') {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand();
-        }
-
-        // Функции навигации
         function showMainMenu() {
             document.querySelectorAll('.search-section').forEach(section => {
                 section.style.display = 'none';
@@ -197,36 +162,24 @@
             document.getElementById(type + 'Search').style.display = 'block';
         }
 
-        // Функции поиска
         async function searchPhone() {
             const phone = document.getElementById('phoneInput').value;
             if (!phone) return alert('Введите номер телефона');
             
             document.getElementById('phoneLoading').style.display = 'block';
-            document.getElementById('phoneResult').style.display = 'none';
             
-            // Имитация поиска (в реальности здесь будут API запросы)
             setTimeout(() => {
-                const operators = ["МТС", "МегаФон", "Билайн", "Tele2", "Yota"];
-                const regions = ["Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург"];
-                
-                const result = `
-📞 ИНФОРМАЦИЯ ПО НОМЕРУ: ${phone}
+                const result = `📞 ИНФОРМАЦИЯ ПО НОМЕРУ: ${phone}
 
 🌍 Страна: Россия
-🏙️ Город: ${regions[Math.floor(Math.random() * regions.length)]}
-📱 Оператор: ${operators[Math.floor(Math.random() * operators.length)]}
+📱 Оператор: МТС/МегаФон/Билайн
 📊 Статус: Активен
-🎯 Соцсети: VK, Telegram, WhatsApp
-⚠️ Уровень риска: Низкий
-
-💡 Дополнительная информация доступна в полной версии бота
-                `;
+💡 Для полной информации используйте Telegram бота @BebrikToolbot`;
                 
                 document.getElementById('phoneLoading').style.display = 'none';
                 document.getElementById('phoneResult').innerText = result;
                 document.getElementById('phoneResult').style.display = 'block';
-            }, 2000);
+            }, 1500);
         }
 
         async function searchIP() {
@@ -234,28 +187,18 @@
             if (!ip) return alert('Введите IP-адрес');
             
             document.getElementById('ipLoading').style.display = 'block';
-            document.getElementById('ipResult').style.display = 'none';
             
             setTimeout(() => {
-                const result = `
-🌐 ИНФОРМАЦИЯ ПО IP: ${ip}
+                const result = `🌐 ИНФОРМАЦИЯ ПО IP: ${ip}
 
 📍 Страна: Россия
-🏙️ Город: Москва
 📡 Провайдер: Ростелеком
-🔧 ASN: AS12345
-🕵️ TOR: Нет
-🔒 VPN: Нет
-📊 Статус: Общедоступный IP
-
-🗺️ Координаты: 55.7558, 37.6173
-⏰ Часовой пояс: Europe/Moscow
-                `;
+💡 Для полной информации используйте Telegram бота @BebrikToolbot`;
                 
                 document.getElementById('ipLoading').style.display = 'none';
                 document.getElementById('ipResult').innerText = result;
                 document.getElementById('ipResult').style.display = 'block';
-            }, 2000);
+            }, 1500);
         }
 
         async function searchVK() {
@@ -263,25 +206,17 @@
             if (!vk) return alert('Введите VK ID или username');
             
             document.getElementById('vkLoading').style.display = 'block';
-            document.getElementById('vkResult').style.display = 'none';
             
             setTimeout(() => {
-                const result = `
-🔍 ИНФОРМАЦИЯ VK: ${vk}
+                const result = `🔍 ИНФОРМАЦИЯ VK: ${vk}
 
-👤 Имя: Пользователь
-📊 Статус: Активен
-🌍 Город: Москва
-🎯 Интересы: Музыка, фильмы
-📅 Дата регистрации: 2020-2023
-
-💡 Полная информация доступна в Telegram боте
-                `;
+👤 Пользователь найден
+💡 Для полной информации используйте Telegram бота @BebrikToolbot`;
                 
                 document.getElementById('vkLoading').style.display = 'none';
                 document.getElementById('vkResult').innerText = result;
                 document.getElementById('vkResult').style.display = 'block';
-            }, 2000);
+            }, 1500);
         }
 
         async function searchTikTok() {
@@ -289,89 +224,24 @@
             if (!tiktok) return alert('Введите username TikTok');
             
             document.getElementById('tiktokLoading').style.display = 'block';
-            document.getElementById('tiktokResult').style.display = 'none';
             
             setTimeout(() => {
-                const result = `
-🎵 ИНФОРМАЦИЯ TIKTOK: ${tiktok}
+                const result = `🎵 ИНФОРМАЦИЯ TIKTOK: ${tiktok}
 
-📊 Подписчики: ${Math.floor(Math.random() * 100000)}
-👥 Подписки: ${Math.floor(Math.random() * 1000)}
-❤️ Лайки: ${Math.floor(Math.random() * 1000000)}
-🎬 Видео: ${Math.floor(Math.random() * 100)}
-🌍 Страна: Россия
-
-💡 Для полной информации используйте Telegram бота
-                `;
+📊 Пользователь найден
+💡 Для полной информации используйте Telegram бота @BebrikToolbot`;
                 
                 document.getElementById('tiktokLoading').style.display = 'none';
                 document.getElementById('tiktokResult').innerText = result;
                 document.getElementById('tiktokResult').style.display = 'block';
-            }, 2000);
+            }, 1500);
         }
 
-        async function searchOK() {
-            const ok = document.getElementById('okInput').value;
-            if (!ok) return alert('Введите телефон или email');
-            
-            document.getElementById('okLoading').style.display = 'block';
-            document.getElementById('okResult').style.display = 'none';
-            
-            setTimeout(() => {
-                const result = `
-👥 ИНФОРМАЦИЯ OK.RU: ${ok}
-
-✅ Аккаунт найден в базе
-📧 Email: ***@mail.ru
-📞 Телефон: +7**********
-👤 Имя: Пользователь
-📅 Дата регистрации: 2019-2022
-
-💡 Подробности в Telegram боте
-                `;
-                
-                document.getElementById('okLoading').style.display = 'none';
-                document.getElementById('okResult').innerText = result;
-                document.getElementById('okResult').style.display = 'block';
-            }, 2000);
-        }
-
-        async function searchDoxbin() {
-            const doxbin = document.getElementById('doxbinInput').value;
-            if (!doxbin) return alert('Введите запрос для поиска');
-            
-            document.getElementById('doxbinLoading').style.display = 'block';
-            document.getElementById('doxbinResult').style.display = 'none';
-            
-            setTimeout(() => {
-                const result = `
-📁 ПОИСК В DOXBIN: ${doxbin}
-
-🔍 Найдено результатов: ${Math.floor(Math.random() * 5)}
-📄 Записи содержат информацию о пользователе
-
-⚠️ Для доступа к полной базе DoxBin
-используйте Telegram бота @BebrikToolbot
-
-🚀 Все функции OSINT доступны в полной версии
-                `;
-                
-                document.getElementById('doxbinLoading').style.display = 'none';
-                document.getElementById('doxbinResult').innerText = result;
-                document.getElementById('doxbinResult').style.display = 'block';
-            }, 2000);
-        }
-
-        // Автозапуск в Telegram
+        // Telegram Web App
         if (typeof Telegram !== 'undefined') {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
-            
-            // Отправка данных в бота
-            Telegram.WebApp.sendData = function(data) {
-                console.log('Data sent to bot:', data);
-            };
         }
     </script>
 </body>
-</html>
+    </html>
